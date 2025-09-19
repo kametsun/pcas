@@ -55,6 +55,11 @@ private:
 	void FinishSequence();
 	void FailSequence(const FString& Reason);
 	void ScheduleRetry(const TFunction<void()>& Action, double DelaySeconds);
+	void StartCaptureCountdown(double TotalSeconds);
+	void StopCaptureCountdown();
+	void HandleCaptureCountdownTick();
+	void LogCaptureCountdown() const;
+	double GetCaptureCountdownRemainingSeconds() const;
 
 	UWorld* GetWorldChecked() const;
 
@@ -86,6 +91,8 @@ private:
 
 	FTimerHandle StabilizeTimerHandle;
 	FTimerHandle MovementTimerHandle;
+	FTimerHandle CaptureCountdownTimerHandle;
 	FString CurrentLocationId;
 	FString CurrentScreenshotPath;
+	double CaptureCountdownDeadlineSeconds = 0.0;
 };

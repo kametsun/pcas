@@ -142,6 +142,7 @@ void UPAAppOrchestrator::BeginNextLocation()
 	const FPALocation* Location = PathPlanner->GetCurrentLocation();
 	if (!Location)
 	{
+		StopCaptureCountdown();
 		FinishSequence();
 		return;
 	}
@@ -155,6 +156,8 @@ void UPAAppOrchestrator::BeginNextLocation()
 	}
 
 	const double MoveDelay = UPAConstants::GetMovementBlendTimeSeconds();
+	const double WaitSeconds = UPAConstants::GetPreCaptureStabilizationSeconds();
+	StartCaptureCountdown(FMath::Max(0.0, MoveDelay + WaitSeconds));
 	if (MoveDelay <= KINDA_SMALL_NUMBER)
 	{
 		EnterStabilize();
@@ -183,6 +186,7 @@ void UPAAppOrchestrator::EnterStabilize()
 void UPAAppOrchestrator::HandleCapture()
 {
 	GetWorldChecked()->GetTimerManager().ClearTimer(StabilizeTimerHandle);
+	StopCaptureCountdown();
 
 	State = EPAAppState::Capture;
 	const FPALocation* Location = PathPlanner->GetCurrentLocation();
@@ -249,6 +253,7 @@ void UPAAppOrchestrator::FinishSequence()
 {
 	State = EPAAppState::Shutdown;
 	UE_LOG(LogPAOrchestrator, Log, TEXT("Sequence completed."));
+	StopCaptureCountdown();
 
 	const bool bExitOnFinish = UPAConstants::ShouldExitApplicationOnFinish();
 	if (!bExitOnFinish)
@@ -275,7 +280,93 @@ void UPAAppOrchestrator::FailSequence(const FString& Reason)
 {
 	State = EPAAppState::Error;
 	UE_LOG(LogPAOrchestrator, Error, TEXT("Sequence failed: %s"), *Reason);
+	StopCaptureCountdown();
 	FinishSequence();
+}
+
+void UPAAppOrchestrator::StartCaptureCountdown(double TotalSeconds)
+{
+	StopCaptureCountdown();
+
+	if (TotalSeconds <= KINDA_SMALL_NUMBER || !CachedWorld.IsValid())
+	{
+		CaptureCountdownDeadlineSeconds = 0.0;
+		return;
+	}
+
+	UWorld* World = GetWorldChecked();
+	CaptureCountdownDeadlineSeconds = World->GetTimeSeconds() + TotalSeconds;
+
+	LogCaptureCountdown();
+
+	const double IntervalSeconds = 5.0;
+	const double FirstDelay = FMath::Min(IntervalSeconds, TotalSeconds);
+	if (FirstDelay <= KINDA_SMALL_NUMBER)
+	{
+		return;
+	}
+
+	World->GetTimerManager().SetTimer(CaptureCountdownTimerHandle, this, &UPAAppOrchestrator::HandleCaptureCountdownTick, IntervalSeconds, true, FirstDelay);
+}
+
+void UPAAppOrchestrator::StopCaptureCountdown()
+{
+	if (CachedWorld.IsValid())
+	{
+		CachedWorld->GetTimerManager().ClearTimer(CaptureCountdownTimerHandle);
+	}
+	CaptureCountdownDeadlineSeconds = 0.0;
+}
+
+void UPAAppOrchestrator::HandleCaptureCountdownTick()
+{
+	LogCaptureCountdown();
+	if (GetCaptureCountdownRemainingSeconds() <= KINDA_SMALL_NUMBER)
+	{
+		StopCaptureCountdown();
+	}
+}
+
+void UPAAppOrchestrator::LogCaptureCountdown() const
+{
+	if (CurrentLocationId.IsEmpty())
+	{
+		return;
+	}
+
+	const double RemainingSeconds = GetCaptureCountdownRemainingSeconds();
+	const int32 Index = PathPlanner ? PathPlanner->GetIndex() + 1 : 0;
+	const int32 Total = PathPlanner ? PathPlanner->GetTotal() : 0;
+
+	const TCHAR* Phase = TEXT("pending");
+	if (State == EPAAppState::Navigate)
+	{
+		Phase = TEXT("navigating");
+	}
+	else if (State == EPAAppState::Stabilize)
+	{
+		Phase = TEXT("stabilizing");
+	}
+
+	if (RemainingSeconds > KINDA_SMALL_NUMBER)
+	{
+		UE_LOG(LogPAOrchestrator, Log, TEXT("[Countdown][%s] Location %s (%d/%d) capture in %.1f seconds"), Phase, *CurrentLocationId, Index, Total, RemainingSeconds);
+	}
+	else
+	{
+		UE_LOG(LogPAOrchestrator, Log, TEXT("[Countdown][%s] Location %s (%d/%d) capture imminent"), Phase, *CurrentLocationId, Index, Total);
+	}
+}
+
+double UPAAppOrchestrator::GetCaptureCountdownRemainingSeconds() const
+{
+	if (!CachedWorld.IsValid() || CaptureCountdownDeadlineSeconds <= 0.0)
+	{
+		return 0.0;
+	}
+
+	const double Remaining = CaptureCountdownDeadlineSeconds - CachedWorld->GetTimeSeconds();
+	return FMath::Max(0.0, Remaining);
 }
 
 void UPAAppOrchestrator::ScheduleRetry(const TFunction<void()>& Action, double DelaySeconds)
