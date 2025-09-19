@@ -32,10 +32,11 @@ void APACesiumBootstrapper::SpawnCesiumActors()
 		Georeference = World->SpawnActor<ACesiumGeoreference>(ACesiumGeoreference::StaticClass(), FTransform::Identity, SpawnParams);
 		if (Georeference)
 		{
-			Georeference->SetGeoreferenceOriginLongitudeLatitudeHeight(
-				UPAConstants::GetOriginLongitude(),
-				UPAConstants::GetOriginLatitude(),
-				UPAConstants::GetOriginHeight());
+			Georeference->SetOriginLongitudeLatitudeHeight(
+				FVector(
+					UPAConstants::GetOriginLongitude(),
+					UPAConstants::GetOriginLatitude(),
+					UPAConstants::GetOriginHeight()));
 		}
 	}
 
@@ -75,7 +76,7 @@ void APACesiumBootstrapper::LoadTilesets(const TArray<FPA3DTilesItem>& Items)
 		}
 
 		Tileset->AttachToActor(Georeference, FAttachmentTransformRules::KeepRelativeTransform);
-		Tileset->SetTilesetSource(ECesium3DTilesetSource::FromUrl);
+		Tileset->SetTilesetSource(ETilesetSource::FromUrl);
 		Tileset->SetUrl(Item.Url);
 		Tilesets.Add(Tileset);
 	}
