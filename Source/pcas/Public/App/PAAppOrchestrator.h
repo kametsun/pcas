@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "PAJsonModels.h"
+#include "Models/PAJsonModels.h"
 #include "PAAppOrchestrator.generated.h"
 
 class APACesiumBootstrapper;

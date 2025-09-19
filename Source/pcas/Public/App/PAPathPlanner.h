@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "PAJsonModels.h"
+#include "Models/PAJsonModels.h"
 #include "PAPathPlanner.generated.h"
 
 UCLASS()

@@ -57,7 +57,8 @@ void UPAImageCaptureService::CaptureScreenshot(const FString& AbsoluteFilePath, 
 	IFileManager::Get().MakeDirectory(*FPaths::GetPath(AbsoluteFilePath), true);
 
 	TArray<uint8> PngData;
-	if (!FImageUtils::CompressImageArray(Width, Height, Bitmap, PngData))
+	FImageUtils::CompressImageArray(Width, Height, Bitmap, PngData);
+	if (PngData.Num() == 0)
 	{
 		Callback(false, AbsoluteFilePath, TEXT("Failed to compress PNG"));
 		return;

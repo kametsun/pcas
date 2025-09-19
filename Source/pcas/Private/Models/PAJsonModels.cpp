@@ -22,8 +22,13 @@ bool FPATilesListResponse::FromJson(const TSharedPtr<FJsonObject>& JsonObject, F
 	Items.Reset();
 	for (const TSharedPtr<FJsonValue>& Value : *ItemsJson)
 	{
-		TSharedPtr<FJsonObject> ItemObject;
-		if (!Value.IsValid() || !Value->TryGetObject(ItemObject))
+		if (!Value.IsValid())
+		{
+			continue;
+		}
+
+		TSharedPtr<FJsonObject> ItemObject = Value->AsObject();
+		if (!ItemObject.IsValid())
 		{
 			continue;
 		}
@@ -56,8 +61,13 @@ bool FPARouteResponse::FromJson(const TSharedPtr<FJsonObject>& JsonObject, FText
 	Locations.Reset();
 	for (const TSharedPtr<FJsonValue>& Value : *LocationsJson)
 	{
-		TSharedPtr<FJsonObject> LocationObject;
-		if (!Value.IsValid() || !Value->TryGetObject(LocationObject))
+		if (!Value.IsValid())
+		{
+			continue;
+		}
+
+		TSharedPtr<FJsonObject> LocationObject = Value->AsObject();
+		if (!LocationObject.IsValid())
 		{
 			continue;
 		}
