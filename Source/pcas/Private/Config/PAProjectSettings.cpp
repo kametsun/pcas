@@ -16,7 +16,7 @@ UPCAProjectSettings::UPCAProjectSettings()
 	CaptureResolution = FIntPoint(1920, 1080);
 
 	TilesLoadGracePeriodSeconds = 20.0;
-	PreCaptureStabilizationSeconds = 3.0;
+	PreCaptureStabilizationSeconds = 30.0; // Longer wait to allow 3D Tiles to finish loading before capture
 
 	UploadRetryCount = 3;
 	UploadRetryBackoffSeconds = 2.0;
