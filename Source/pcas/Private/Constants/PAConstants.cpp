@@ -36,6 +36,11 @@ FString UPAConstants::GetBackendOrigin()
 	return GetSettings()->BackendOrigin;
 }
 
+FString UPAConstants::MakeBackendUrl(const FString& Path)
+{
+	return MakeUrl(GetSettings()->BackendOrigin, Path);
+}
+
 FString UPAConstants::GetTilesListUrl()
 {
 	const UPCAProjectSettings* Settings = GetSettings();

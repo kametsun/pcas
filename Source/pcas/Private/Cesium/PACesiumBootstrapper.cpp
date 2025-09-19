@@ -77,7 +77,7 @@ void APACesiumBootstrapper::LoadTilesets(const TArray<FPA3DTilesItem>& Items)
 
 		Tileset->AttachToActor(Georeference, FAttachmentTransformRules::KeepRelativeTransform);
 		Tileset->SetTilesetSource(ETilesetSource::FromUrl);
-		Tileset->SetUrl(Item.Url);
+		Tileset->SetUrl(UPAConstants::MakeBackendUrl(Item.Url));
 		Tilesets.Add(Tileset);
 	}
 

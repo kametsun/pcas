@@ -13,6 +13,7 @@ public:
 	static const UPCAProjectSettings* GetSettings();
 
 	static FString GetBackendOrigin();
+	static FString MakeBackendUrl(const FString& Path);
 	static FString GetTilesListUrl();
 	static FString GetRoutesUrl();
 	static FString GetUploadUrl();
