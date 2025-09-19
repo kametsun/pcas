@@ -3,11 +3,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Models/PAJsonModels.h"
+#include "Cesium3DTileset.h"
+#include "CesiumGeoreference.h"
+#include "CesiumSunSky.h"
 #include "PACesiumBootstrapper.generated.h"
-
-class ACesiumGeoreference;
-class ACesiumSunSky;
-class ACesium3DTileset;
 
 UCLASS()
 class PCAS_API APACesiumBootstrapper : public AActor

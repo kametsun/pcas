@@ -8,17 +8,18 @@ public class pcas : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[]
-		{
-			"Core",
-			"CoreUObject",
-			"Engine",
-			"InputCore",
-			"EnhancedInput",
-			"HTTP",
-			"Json",
-			"JsonUtilities"
-		});
+			PublicDependencyModuleNames.AddRange(new string[]
+			{
+				"Core",
+				"CoreUObject",
+				"Engine",
+				"InputCore",
+				"EnhancedInput",
+				"HTTP",
+				"Json",
+				"JsonUtilities",
+				"CesiumRuntime"
+			});
 
 			PrivateDependencyModuleNames.AddRange(new string[]
 			{
@@ -27,6 +28,16 @@ public class pcas : ModuleRules
 				"RenderCore",
 				"RHI",
 				"Projects",
+				"CesiumRuntime"
+			});
+
+			PublicIncludePathModuleNames.AddRange(new string[]
+			{
+				"CesiumRuntime"
+			});
+
+			PrivateIncludePathModuleNames.AddRange(new string[]
+			{
 				"CesiumRuntime"
 			});
 

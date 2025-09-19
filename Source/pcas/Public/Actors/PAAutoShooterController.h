@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Models/PAJsonModels.h"
+#include "CesiumGeoreference.h"
 #include "PAAutoShooterController.generated.h"
 
 class ACesiumGeoreference;
