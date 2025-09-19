@@ -10,7 +10,7 @@ UPCAProjectSettings::UPCAProjectSettings()
 	OriginLatitude = 34.972910;
 	OriginLongitude = 138.387616;
 	OriginHeight = 50.0; // 既定で地上から少し上に配置
-	AltitudeOffsetMeters = 20.0;
+	AltitudeOffsetMeters = 50.0;
 
 	ScreenshotSubdirectory = TEXT("Screenshots/Auto");
 	CaptureResolution = FIntPoint(1920, 1080);
