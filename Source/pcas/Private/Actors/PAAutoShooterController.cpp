@@ -47,8 +47,9 @@ void APAAutoShooterController::ApplyLocation(const FPALocation& Location)
 	LastTargetLocation = FVector::ZeroVector;
 	if (Georeference)
 	{
+		const double AdjustedAltitude = Location.Altitude + UPAConstants::GetAltitudeOffsetMeters();
 		LastTargetLocation = Georeference->TransformLongitudeLatitudeHeightPositionToUnreal(
-			FVector(Location.Longitude, Location.Latitude, Location.Altitude));
+			FVector(Location.Longitude, Location.Latitude, AdjustedAltitude));
 	}
 	SetActorLocation(LastTargetLocation);
 	StartLocation = LastTargetLocation;
@@ -61,8 +62,9 @@ void APAAutoShooterController::BlendToLocation(const FPALocation& Location, doub
 	StartLocation = GetActorLocation();
 	if (Georeference)
 	{
+		const double AdjustedAltitude = Location.Altitude + UPAConstants::GetAltitudeOffsetMeters();
 		LastTargetLocation = Georeference->TransformLongitudeLatitudeHeightPositionToUnreal(
-			FVector(Location.Longitude, Location.Latitude, Location.Altitude));
+			FVector(Location.Longitude, Location.Latitude, AdjustedAltitude));
 	}
 	else
 	{

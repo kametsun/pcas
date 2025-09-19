@@ -39,6 +39,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Config, Category="Cesium", meta=(ToolTip="CesiumGeoreference の原点（高さ, m）"))
 	double OriginHeight;
 
+	UPROPERTY(EditDefaultsOnly, Config, Category="Cesium", meta=(ToolTip="位置情報APIからの高度に加算する補正 (m)"))
+	double AltitudeOffsetMeters;
+
 	// Capture config
 	UPROPERTY(EditDefaultsOnly, Config, Category="Capture", meta=(ToolTip="スクリーンショットの保存先 (Saved からの相対パス)"))
 	FString ScreenshotSubdirectory;

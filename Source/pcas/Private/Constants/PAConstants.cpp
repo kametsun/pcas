@@ -106,6 +106,11 @@ double UPAConstants::GetOriginHeight()
 	return GetSettings()->OriginHeight;
 }
 
+double UPAConstants::GetAltitudeOffsetMeters()
+{
+	return GetSettings()->AltitudeOffsetMeters;
+}
+
 double UPAConstants::GetDirectionOffsetDegrees()
 {
 	return GetSettings()->DirectionOffsetDegrees;

@@ -29,6 +29,7 @@ public:
 	static double GetOriginLatitude();
 	static double GetOriginLongitude();
 	static double GetOriginHeight();
+	static double GetAltitudeOffsetMeters();
 
 	static double GetDirectionOffsetDegrees();
 
