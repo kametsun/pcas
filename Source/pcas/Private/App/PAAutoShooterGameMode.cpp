@@ -43,6 +43,12 @@ void APAAutoShooterGameMode::StartPlay()
 		AutoController = World->SpawnActor<APAAutoShooterController>(APAAutoShooterController::StaticClass());
 	}
 
+	// Ensure the controller knows about the Cesium georeference for coordinate transforms
+	if (AutoController && Bootstrapper)
+	{
+		AutoController->Initialize(Bootstrapper->GetGeoreference());
+	}
+
 	if (APlayerController* PC = World->GetFirstPlayerController())
 	{
 		AutoController->AttachToPlayerController(PC);
