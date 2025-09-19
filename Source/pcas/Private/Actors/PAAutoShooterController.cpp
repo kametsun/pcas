@@ -37,9 +37,10 @@ void APAAutoShooterController::BeginPlay()
 	CaptureRenderTarget = NewObject<UTextureRenderTarget2D>(this, TEXT("AutoCaptureRenderTarget"));
 	CaptureRenderTarget->InitCustomFormat(Resolution.X, Resolution.Y, PF_B8G8R8A8, false);
 	CaptureRenderTarget->ClearColor = FLinearColor::Transparent;
-	CaptureRenderTarget->TargetGamma = 2.2f;
+	CaptureRenderTarget->TargetGamma = 1.0f; // Tonemapped output is already in display space
 	CaptureComponent->TextureTarget = CaptureRenderTarget;
 	CaptureComponent->bAlwaysPersistRenderingState = true;
+	CaptureComponent->CaptureSource = ESceneCaptureSource::SCS_FinalColorLDR;
 }
 
 void APAAutoShooterController::ApplyLocation(const FPALocation& Location)
