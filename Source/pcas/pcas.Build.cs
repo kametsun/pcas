@@ -13,6 +13,7 @@ public class pcas : ModuleRules
 				"Core",
 				"CoreUObject",
 				"Engine",
+				"DeveloperSettings",
 				"InputCore",
 				"EnhancedInput",
 				"HTTP",
@@ -30,6 +31,14 @@ public class pcas : ModuleRules
 				"Projects",
 				"CesiumRuntime"
 			});
+
+			if (Target.bBuildEditor)
+			{
+				PrivateDependencyModuleNames.AddRange(new string[]
+				{
+					"UnrealEd"
+				});
+			}
 
 			PublicIncludePathModuleNames.AddRange(new string[]
 			{
