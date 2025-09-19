@@ -14,7 +14,7 @@ UPCAProjectSettings::UPCAProjectSettings()
 	ScreenshotSubdirectory = TEXT("Screenshots/Auto");
 	CaptureResolution = FIntPoint(1920, 1080);
 
-	TilesLoadGracePeriodSeconds = 5.0;
+	TilesLoadGracePeriodSeconds = 10.0;
 	PreCaptureStabilizationSeconds = 3.0;
 
 	UploadRetryCount = 3;
