@@ -20,14 +20,15 @@ public class pcas : ModuleRules
 			"JsonUtilities"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[]
-		{
-			"ImageWrapper",
-			"ImageWriteQueue",
-			"RenderCore",
-			"RHI",
-			"Projects"
-		});
+			PrivateDependencyModuleNames.AddRange(new string[]
+			{
+				"ImageWrapper",
+				"ImageWriteQueue",
+				"RenderCore",
+				"RHI",
+				"Projects",
+				"CesiumRuntime"
+			});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
