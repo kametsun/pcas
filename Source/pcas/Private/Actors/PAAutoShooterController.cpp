@@ -5,6 +5,7 @@
 #include "Components/SceneCaptureComponent2D.h"
 #include "Constants/PAConstants.h"
 #include "Engine/TextureRenderTarget2D.h"
+#include "Engine/Scene.h"
 #include "GameFramework/PlayerController.h"
 
 APAAutoShooterController::APAAutoShooterController()
@@ -41,6 +42,7 @@ void APAAutoShooterController::BeginPlay()
 	CaptureComponent->TextureTarget = CaptureRenderTarget;
 	CaptureComponent->bAlwaysPersistRenderingState = true;
 	CaptureComponent->CaptureSource = ESceneCaptureSource::SCS_FinalColorLDR;
+	ConfigureCaptureComponent();
 }
 
 void APAAutoShooterController::ApplyLocation(const FPALocation& Location)
@@ -127,4 +129,33 @@ void APAAutoShooterController::UpdateInterpolation(float DeltaSeconds)
 			RotationBlendDuration = 0.0;
 		}
 	}
+}
+
+void APAAutoShooterController::ConfigureCaptureComponent()
+{
+	if (!CaptureComponent)
+	{
+		return;
+	}
+
+	if (Camera)
+	{
+		CaptureComponent->PostProcessSettings = Camera->PostProcessSettings;
+		CaptureComponent->PostProcessBlendWeight = Camera->PostProcessBlendWeight;
+	}
+
+	if (!UPAConstants::ShouldCaptureUseManualExposure())
+	{
+		return;
+	}
+
+	FPostProcessSettings& Settings = CaptureComponent->PostProcessSettings;
+	Settings.bOverride_AutoExposureMethod = true;
+	Settings.AutoExposureMethod = EAutoExposureMethod::AEM_Manual;
+	Settings.bOverride_AutoExposureBias = true;
+	Settings.AutoExposureBias = UPAConstants::GetCaptureManualExposureBias();
+	Settings.bOverride_AutoExposureMinBrightness = true;
+	Settings.AutoExposureMinBrightness = 1.0f;
+	Settings.bOverride_AutoExposureMaxBrightness = true;
+	Settings.AutoExposureMaxBrightness = 1.0f;
 }

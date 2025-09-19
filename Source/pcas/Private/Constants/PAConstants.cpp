@@ -145,3 +145,13 @@ FIntPoint UPAConstants::GetCaptureResolution()
 {
 	return GetSettings()->CaptureResolution;
 }
+
+bool UPAConstants::ShouldCaptureUseManualExposure()
+{
+	return GetSettings()->bCaptureUseManualExposure;
+}
+
+float UPAConstants::GetCaptureManualExposureBias()
+{
+	return GetSettings()->CaptureManualExposureBias;
+}

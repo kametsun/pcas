@@ -39,6 +39,7 @@ protected:
 
 private:
 	void UpdateInterpolation(float DeltaSeconds);
+	void ConfigureCaptureComponent();
 
 private:
 	UPROPERTY()

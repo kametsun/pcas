@@ -42,4 +42,6 @@ public:
 	static double GetRotationBlendTimeSeconds();
 
 	static FIntPoint GetCaptureResolution();
+	static bool ShouldCaptureUseManualExposure();
+	static float GetCaptureManualExposureBias();
 };

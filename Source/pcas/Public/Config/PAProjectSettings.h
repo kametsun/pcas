@@ -49,6 +49,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Config, Category="Capture", meta=(ToolTip="スクリーンショット解像度"))
 	FIntPoint CaptureResolution;
 
+	UPROPERTY(EditDefaultsOnly, Config, Category="Capture", meta=(ToolTip="SceneCaptureで手動露出を使用する"))
+	bool bCaptureUseManualExposure;
+
+	UPROPERTY(EditDefaultsOnly, Config, Category="Capture", meta=(ToolTip="手動露出使用時の露出バイアス"))
+	float CaptureManualExposureBias;
 	// Timing
 	UPROPERTY(EditDefaultsOnly, Config, Category="Timing", meta=(ToolTip="Tileset 初期化を待つ秒数"))
 	double TilesLoadGracePeriodSeconds;

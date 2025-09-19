@@ -14,6 +14,8 @@ UPCAProjectSettings::UPCAProjectSettings()
 
 	ScreenshotSubdirectory = TEXT("Screenshots/Auto");
 	CaptureResolution = FIntPoint(1920, 1080);
+	bCaptureUseManualExposure = true;
+	CaptureManualExposureBias = -1.0f;
 
 	TilesLoadGracePeriodSeconds = 20.0;
 	PreCaptureStabilizationSeconds = 30.0; // Longer wait to allow 3D Tiles to finish loading before capture
